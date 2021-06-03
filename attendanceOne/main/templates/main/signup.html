@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+SignUp
+{% endblock %}
+
+{% block content %}
+<h1>SignUp Page</h1>
+<div>
+  <form method="post" action="/signup/">
+    {{form.as_table}}
+    <button type="submit" name="SignUp">SignUp</button>
+  </form>
+
+  {% endblock %}
