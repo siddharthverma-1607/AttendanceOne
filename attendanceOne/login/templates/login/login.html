@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;">Login</h1>
+
+{% if userAdded %}
+<script lang="javascript">
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Registeration successfull, Please Login.',
+    showConfirmButton: false,
+    timer: 1500
+  })
+</script>
+{% endif %}
+
+<br>
+<p style="color: red; text-align: center;">{{ result }}</p>
+<div class="container">
+  <form method="post" action="/login/">
+    {% csrf_token %}
+
+
+    <!-- Form Row 1 -->
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+      </div>
+      <input class="form-control" name="email" placeholder="Enter Your Email" type="email" id="email" name="email"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid E-mail" required>
+    </div> <!-- form-group end.// -->
+
+    <br>
+
+    <!-- Form Row 2 -->
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+      </div>
+      <input class="form-control" type="password" id="pwd" name="pwd" placeholder="Enter Your Password"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+        required>
+
+    </div> <!-- form-group end.// -->
+
+    <br>
+    <button type="submit" class="btn btn-primary btn-block" name="login">Login</button>
+  </form>
+</div>
+{% endblock %}

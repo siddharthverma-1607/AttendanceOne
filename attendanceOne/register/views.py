@@ -21,8 +21,8 @@ def register(response):
 
         if(dao.searchUser(newUser)):
             dao.addNewUser(newUser)
-            return HttpResponse("<h1>Registeration Successful for </h1><br>")
-            # return render(response,"login/login.html",form)
+            # return HttpResponse("<h1>Registeration Successful for </h1><br>")
+            return render(response, "login/login.html", {"userAdded": True})
 
         else:
             form = {"result": "**User with entered email already exists!"}

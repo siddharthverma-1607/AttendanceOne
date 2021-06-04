@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% block title %}
+About
+{% endblock %}
+
+{% block content %}
+<h1>Welcome {{ name }}</h1>
+<br>User Authenticated = {{ auth }}
+<br><br>
+{% if auth == None %}
+<script lang="javascript">
+  window.location.href = '/login/';
+</script>
+{% endif %}
+{% endblock %}
