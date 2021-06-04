@@ -1,20 +1,11 @@
-from django.db import models
 
 # Create your models here.
 
-
-class ChildUser(models.Model):
-    name = models.CharField(max_length=200)
-    roll = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
-
-
-class User(models.Model):
-    name = models.CharField(max_length=200)
-    email = models.CharField(max_length=200)
-    password = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
+class User():
+    def __init__(self, *args):
+        self.name = args[0]
+        self.email = args[1]
+        self.contact = args[2]
+        self.organization = args[3]
+        self.age = args[4]
+        self.password = args[5]
