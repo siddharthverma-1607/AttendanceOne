@@ -10,7 +10,7 @@ def login(response):
         result = dao.authUser(email, password)
 
         if result[0] == True:
-            print(result[1])
+            # print(result[1])
             result[1]["auth"] = True
             return render(response, "login/userSpace.html", result[1])
         else:

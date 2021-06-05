@@ -4,12 +4,19 @@ About
 {% endblock %}
 
 {% block content %}
-<h1>Welcome {{ name }}</h1>
-<br>User Authenticated = {{ auth }}
-<br><br>
-{% if auth == None %}
-<script lang="javascript">
-  window.location.href = '/login/';
-</script>
-{% endif %}
+
+<div class="container">
+  <h1>Welcome {{ name }} <a href="{% url 'login' %}" class="btn btn-info btn-lg" style="float: right;">
+      <span class="glyphicon glyphicon-log-out"></span> Log out
+    </a></h1>
+
+  <br>User Authenticated = {{ auth }}
+  <br><br>
+  {% if auth == None %}
+  <script lang="javascript">
+    window.location.href = '/login/';
+  </script>
+  {% endif %}
+
+</div>
 {% endblock %}
