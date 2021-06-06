@@ -3,20 +3,97 @@
 About
 {% endblock %}
 
+{% block head %}
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+
+  button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+
+  button:hover,
+  a:hover {
+    opacity: 0.7;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
+<!-- ------------------------------------ -->
+<!-- To redirect if auth token is absent  -->
+<!-- ------------------------------------ -->
+{% if auth == None %}
+<script lang="javascript">
+  window.location.href = '/login/';
+</script>
+{% endif %}
+
+
 <div class="container">
+
   <h1>Welcome {{ name }} <a href="{% url 'login' %}" class="btn btn-info btn-lg" style="float: right;">
       <span class="glyphicon glyphicon-log-out"></span> Log out
     </a></h1>
 
   <br>User Authenticated = {{ auth }}
   <br><br>
-  {% if auth == None %}
-  <script lang="javascript">
-    window.location.href = '/login/';
-  </script>
-  {% endif %}
+
+
+
+  <div class="row">
+    <!-- Left Column of page -->
+    <div class="col">
+      <!-- 1 of 2 -->
+
+      <!-- Adding Login-User Info -->
+      <div class="card">
+        <!-- <img src="/w3images/team2.jpg" alt="John" style="width:100%"> -->
+        <h1>{{ name }}</h1>
+        <p class="title">CEO & Founder, Example</p>
+        <p>{{ organization }}</p>
+        <div style="margin: 24px 0;">
+          <a href="#"><i class="fa fa-dribbble"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-linkedin"></i></a>
+          <a href="#"><i class="fa fa-facebook"></i></a>
+        </div>
+        <p><button>Contact : {{ contact }}</button></p>
+      </div>
+
+    </div>
+    <!-- Right Column of page -->
+    <div class="col">
+      2 of 2
+    </div>
+  </div>
 
 </div>
+
 {% endblock %}
