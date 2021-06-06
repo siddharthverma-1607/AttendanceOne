@@ -30,6 +30,11 @@ def addNewUser(userObject):
         'contact': userObject.contact,
         'organization': userObject.organization,
         'age': userObject.age,
+        # 'dob' : ,
+        # 'facebook_link':'#',
+        # 'twitter_link':'#',
+        # 'linkdin_link' : '#',
+        # 'whatsapp_link' : '#',
         'password': userObject.password
     }
 

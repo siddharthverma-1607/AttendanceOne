@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% block title %}
-About
+UserSpace
 {% endblock %}
 
 {% block head %}
@@ -18,17 +18,8 @@ About
     font-size: 18px;
   }
 
-  button {
-    border: none;
-    outline: 0;
-    display: inline-block;
-    padding: 8px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
+  p {
+    text-align: left;
   }
 
   a {
@@ -37,7 +28,6 @@ About
     color: black;
   }
 
-  button:hover,
   a:hover {
     opacity: 0.7;
   }
@@ -63,37 +53,129 @@ About
     </a></h1>
 
   <br>User Authenticated = {{ auth }}
-  <br><br>
+  <br>
+</div>
 
+<!-- About Start --><br>
+<section class="about-area pt-100 pb-95">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-xs-12">
 
+        <!-- Adding Login-User Info -->
+        <div class="card" style="line-height: normal;">
+          {% load static %}
+          <img src="{% static 'login/userDefault.jpg' %}" alt="{{ name }}" style="width:100%">
+          <button type="button" class="btn btn-info"><i class="fa fa-user-plus" aria-hidden="true"></i>
+            &nbsp; Add | Update </button>
+          <hr>
+          <div class="container">
+            <h1 style="color: black;">{{ name }}</h1>
+            <p class="title">✉ - {{ email }}</p>
+            <p class="title"> 📞 - {{ contact }}</p>
+            <p class="title"> 🎂 - {{ age }}</p>
+            <p style="color: black; font-size: larger;"> 🏨 - {{ organization }}</p>
+          </div>
 
-  <div class="row">
-    <!-- Left Column of page -->
-    <div class="col">
-      <!-- 1 of 2 -->
+          <div style="margin: 15px 0; line-height: 80%;">
+            <a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> &emsp;
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> &emsp;
+            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>&emsp;
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          </div>
 
-
-    </div>
-    <!-- Right Column of page -->
-    <div class="col">
-      <!-- 2 of 2 -->
-      <!-- Adding Login-User Info -->
-      <div class="card">
-        <!-- <img src="/w3images/team2.jpg" alt="John" style="width:100%"> -->
-        <h1 style="color: black;">{{ name }}</h1>
-        <p class="title">CEO & Founder, Example</p>
-        <p style="color: black;">{{ organization }}</p>
-        <div style="margin: 24px 0;">
-          <a href="#"><i class="fa fa-dribbble"></i></a>
-          <a href="#"><i class="fa fa-twitter"></i></a>
-          <a href="#"><i class="fa fa-linkedin"></i></a>
-          <a href="#"><i class="fa fa-facebook"></i></a>
+          <button class="btn btn-info" type="button">Update Profile</button>
         </div>
-        <p><button>Contact : {{ contact }}</button></p>
+
+      </div>
+
+      <!-- 2 column | bottom tier  -->
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="about-content">
+          <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+          <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+          <br>
+          <h2 style=" font-family: 'Brush Script MT', cursive; text-align: center;">You Can </h2><br>
+
+          <!-- User Functions -->
+          <div class="row">
+            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/addUser.png' %}" width="144px" height="144px"
+                  class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">Add User</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+
+              <br>
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/updateUser.png' %}" width="144px" height="144px"
+                  class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">Update<br> User</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-4 mb-4 mb-lg-0">
+
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/deleteUser.png' %}" width="144px" height="144px"
+                  class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">Delete User</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+
+              <br>
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/viewAttendance.png' %}" width="144px"
+                  height="144px" class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">View Attendance</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-4 mb-lg-0">
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/generateLink.png' %}" width="144px"
+                  height="144px" class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">Share Link</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+
+              <br>
+              <div class="card bg-dark" style="width: 10em">
+                {% load static %}
+                <img class="card-img-top mx-auto" src="{% static 'login/deleteAccount.png' %}" width="144px"
+                  height="144px" class="rounded mb-4" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">Delete Account</h5>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
-
-</div>
-
+</section>
+<!-- About End -->
 {% endblock %}
