@@ -13,11 +13,11 @@ def register(response):
         email = response.POST.get("email")
         contact = response.POST.get("contact")
         organization = response.POST.get("organization")
-        age = response.POST.get("age")
+        dob = response.POST.get("dob")
         password = response.POST.get("pwd")
 
         newUser = models.User(name, email, contact,
-                              organization, age, password)
+                              organization, dob, password)
 
         if(dao.searchUser(newUser)):
             dao.addNewUser(newUser)

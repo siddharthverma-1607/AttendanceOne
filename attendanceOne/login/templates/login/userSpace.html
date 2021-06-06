@@ -73,15 +73,16 @@ UserSpace
             <h1 style="color: black;">{{ name }}</h1>
             <p class="title">✉ - {{ email }}</p>
             <p class="title"> 📞 - {{ contact }}</p>
-            <p class="title"> 🎂 - {{ age }}</p>
+            <p class="title"> 🎂 - {{ dob }}</p>
+            <p class="title"> Age - {{ age }}</p>
             <p style="color: black; font-size: larger;"> 🏨 - {{ organization }}</p>
           </div>
 
           <div style="margin: 15px 0; line-height: 80%;">
-            <a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> &emsp;
-            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> &emsp;
-            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>&emsp;
-            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="{{ socialLinks.whatsapp }}"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> &emsp;
+            <a href="{{ socialLinks.twitter }}"><i class="fa fa-twitter" aria-hidden="true"></i></a> &emsp;
+            <a href="{{ socialLinks.linkdin }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>&emsp;
+            <a href="{{ socialLinks.facebook }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
           </div>
 
           <button class="btn btn-info" type="button">Update Profile</button>

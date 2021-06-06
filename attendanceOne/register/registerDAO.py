@@ -1,4 +1,5 @@
 import pymongo
+from datetime import date, datetime
 
 
 def getConnection():
@@ -24,13 +25,22 @@ def addNewUser(userObject):
 
     userTable = Database.users
 
+    #  calculating user age
+    born = datetime.strptime(
+        userObject.dob, '%Y-%m-%d')
+    print(born)
+    today = date.today()
+    age = today.year - born.year - \
+        ((today.month, today.day) < (born.month, born.day))
+
     queryObject = {
         'name': userObject.name,
         'email': userObject.email,
         'contact': userObject.contact,
         'organization': userObject.organization,
-        'age': userObject.age,
-        # 'dob' : ,
+        'dob': born,
+        'age': age,
+        'socialLinks': userObject.socialLinks,
         # 'facebook_link':'#',
         # 'twitter_link':'#',
         # 'linkdin_link' : '#',

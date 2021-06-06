@@ -8,8 +8,10 @@ class User():
         self.email = args[1]
         self.contact = args[2]
         self.organization = args[3]
-        self.age = args[4]
+        self.dob = args[4]
         self.password = base64.b64encode(args[5].encode("utf-8"))
+        self.socialLinks = {'facebook': '#',
+                            'whatsapp': '#', 'linkdin': '#', 'twitter': '#'}
 
     def __str__(self):
         return self.name
