@@ -32,29 +32,121 @@ UserSpace
     opacity: 0.7;
   }
 </style>
+
+<script>
+  // Function to set cookie 
+  // function setCookie(cname, cvalue, exdays) {
+  //   var d = new Date();
+  //   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  //   var expires = "expires=" + d.toGMTString();
+  //   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  // }
+
+  // Function to get cookie value
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Logout Function to delete cookies and redirect to loginpage
+  function userLogout() {
+    document.cookie = "name" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "auth" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "userId" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "email" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "contact" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "dob" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "age" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "organization" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "whatsappLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "twitterLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "linkdinLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "facebookLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location.href = '/login/';
+
+  }
+
+
+  // Onload DOM event to check if cookie("auth") is true
+  // else redirect to login page
+  // if true then set cookies value in innerHTML
+  document.addEventListener('DOMContentLoaded', function () {
+    if (getCookie("auth") != "true") {
+      window.location.href = '/login/';
+    }
+    document.getElementById("name").innerHTML += getCookie("name");
+    document.getElementById("auth").innerHTML += getCookie("auth");
+    document.getElementById("email").innerHTML += getCookie("email");
+    document.getElementById("contact").innerHTML += getCookie("contact");
+    document.getElementById("dob").innerHTML += getCookie("dob");
+    document.getElementById("age").innerHTML += getCookie("age");
+    document.getElementById("organization").innerHTML += getCookie("organization");
+    document.getElementById("whatsapp").href = getCookie("whatsappLink");
+    document.getElementById("twitter").href = getCookie("twitterLink");
+    document.getElementById("linkdin").href = getCookie("linkdinLink");
+    document.getElementById("facebook").href = getCookie("facebookLink");
+
+
+    // document.getElementById("auth").innerHTML += getCookie("auth");
+
+
+    // document.getElementById("userId").innerHTML += getCookie("userId");
+  }, false);
+</script>
 {% endblock %}
 
+
+<!-- -------------------------------------------------------- -->
+<!-- --------------------- Body Starts Here ----------------- -->
+<!-- -------------------------------------------------------- -->
 {% block content %}
 
 <!-- ------------------------------------ -->
 <!-- To redirect if auth token is absent  -->
 <!-- ------------------------------------ -->
-{% if auth == None %}
+<!-- {% if auth == None %}
 <script lang="javascript">
   window.location.href = '/login/';
 </script>
-{% endif %}
+{% endif %} -->
+
+<!-- 
+{% if auth == True %}
+<script lang="javascript">
+  var name = "{{ name }}";
+  var userId = "{{ userId }}";
+
+  // alert(userId);
+  // Setting up Cookie
+  setCookie("name", name, 30);
+  setCookie("userId", userId, 30);
+  setCookie("auth", true, 30);
+</script>
+{% endif %} -->
 
 
 <div class="container">
+  <h1 id="name">Welcome </h1>
+  <a href="#" onclick="userLogout()" class="btn btn-info btn-lg" style="float: right;">
+    <span class="glyphicon glyphicon-log-out"></span> Log out
+  </a>
 
-  <h1>Welcome {{ name }} <a href="{% url 'login' %}" class="btn btn-info btn-lg" style="float: right;">
-      <span class="glyphicon glyphicon-log-out"></span> Log out
-    </a></h1>
-
-  <br>User Authenticated = {{ auth }}
+  <br>
+  <p id="auth">User Authenticated = </p>
   <br>
 </div>
+
 
 <!-- About Start --><br>
 <section class="about-area pt-100 pb-95">
@@ -70,19 +162,19 @@ UserSpace
             &nbsp; Add | Update </button>
           <hr>
           <div class="container">
-            <h1 style="color: black;">{{ name }}</h1>
-            <p class="title">✉ - {{ email }}</p>
-            <p class="title"> 📞 - {{ contact }}</p>
-            <p class="title"> 🎂 - {{ dob }}</p>
-            <p class="title"> Age - {{ age }}</p>
-            <p style="color: black; font-size: larger;"> 🏨 - {{ organization }}</p>
+            <h1 style="color: black;" id="name"></h1>
+            <p class="title" id="email">✉ - </p>
+            <p class="title" id="contact"> 📞 - </p>
+            <p class="title" id="dob"> 🎂 - </p>
+            <p class="title" id="age"> Age - </p>
+            <p style="color: black; font-size: larger;" id="organization"> 🏨 - </p>
           </div>
 
           <div style="margin: 15px 0; line-height: 80%;">
-            <a href="{{ socialLinks.whatsapp }}"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> &emsp;
-            <a href="{{ socialLinks.twitter }}"><i class="fa fa-twitter" aria-hidden="true"></i></a> &emsp;
-            <a href="{{ socialLinks.linkdin }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>&emsp;
-            <a href="{{ socialLinks.facebook }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a id="whatsapp" href=""><i class="fa fa-whatsapp" aria-hidden="true"></i></a> &emsp;
+            <a id="twitter" href=""><i class="fa fa-twitter" aria-hidden="true"></i></a> &emsp;
+            <a id="linkdin" href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>&emsp;
+            <a id="facebook" href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
           </div>
 
           <button class="btn btn-info" type="button">Update Profile</button>
@@ -107,7 +199,7 @@ UserSpace
                   class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">Add User</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'addUser' %}" class="stretched-link"></a>
                 </div>
               </div>
 
@@ -118,7 +210,7 @@ UserSpace
                   class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">Update<br> User</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'updateUser' %}" class="stretched-link"></a>
                 </div>
               </div>
 
@@ -132,7 +224,7 @@ UserSpace
                   class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">Delete User</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'deleteUser' %}" class="stretched-link"></a>
                 </div>
               </div>
 
@@ -143,7 +235,7 @@ UserSpace
                   height="144px" class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">View Attendance</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'viewAttendance' %}" class="stretched-link"></a>
                 </div>
               </div>
             </div>
@@ -155,7 +247,7 @@ UserSpace
                   height="144px" class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">Share Link</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'shareLink' %}" class="stretched-link"></a>
                 </div>
               </div>
 
@@ -166,7 +258,7 @@ UserSpace
                   height="144px" class="rounded mb-4" alt="" />
                 <div class="card-body">
                   <h5 class="card-title">Delete Account</h5>
-                  <a href="#" class="stretched-link"></a>
+                  <a href="{% url 'deleteAccount' %}" class="stretched-link"></a>
                 </div>
               </div>
 

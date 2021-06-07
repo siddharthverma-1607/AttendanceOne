@@ -19,6 +19,15 @@ def getConnection():
 
 
 def addNewUser(userObject):
+    """
+    Adds new User To User DB, Creates UserSpace row in userSpace DB.
+
+    Parameters
+    ----------
+    arg1 : Model Object
+        Model Object will hold all data required for seacrhing from to MongoDB.
+
+    """
     connection = getConnection()
     # Database
     Database = connection.get_database('attendanceOneUser')
@@ -41,16 +50,44 @@ def addNewUser(userObject):
         'dob': born,
         'age': age,
         'socialLinks': userObject.socialLinks,
-        # 'facebook_link':'#',
-        # 'twitter_link':'#',
-        # 'linkdin_link' : '#',
-        # 'whatsapp_link' : '#',
         'password': userObject.password
     }
 
+    # Inserting into userDB
     queryId = userTable.insert_one(queryObject)
     print(queryId)
     print(queryId.inserted_id)
+    connection.close()
+    # Creating UserSpace in UserSpace Table
+    createUserSpace(queryId)
+
+
+def createUserSpace(queryId):
+    """
+    Creates UserSpace Document in UserSpaceDB with userId as foreign Key from UserDB.
+
+    Parameters
+    ----------
+    arg1 : userID
+        UserID is object ID created when inserted into User DB. Will be used as foreign key.
+    """
+    connection = getConnection()
+
+    # Database
+    Database = connection.get_database('attendanceOneUser')
+
+    userSpaceTable = Database.userSpace
+
+    queryObject = {
+        'userId': queryId.inserted_id,
+        # userDetail : [ {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]} ]
+        'userDetails': [],
+        # 'recordTaken' : [ date-1, date-2, date-3, date-N],
+        'recordTaken': [],
+        'userLimit': 10
+    }
+
+    query = userSpaceTable.insert_one(queryObject)
     connection.close()
 
 

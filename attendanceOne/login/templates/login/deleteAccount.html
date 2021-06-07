@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+{% block title %}
+deleteAccount
+{% endblock %}
+
+{% block head %}
+<script type="text/javascript">
+
+  // Logout Function to delete cookies and redirect to loginpage
+  function userLogout() {
+    document.cookie = "name" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "auth" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "userId" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "email" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "contact" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "dob" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "age" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "organization" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "whatsappLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "twitterLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "linkdinLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "facebookLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location.href = '/login/';
+
+  }
+
+  // Function to get cookie value
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Onload DOM event to check if cookie("auth") is true
+  // else redirect to login page
+  // if true then set cookies value in innerHTML
+  document.addEventListener('DOMContentLoaded', function () {
+    if (getCookie("auth") != "true") {
+      window.location.href = '/login/';
+    }
+    document.getElementById("name").innerHTML += getCookie("name");
+    document.getElementById("auth").innerHTML += getCookie("auth");
+    document.getElementById("userId").innerHTML += getCookie("userId");
+  }, false);
+</script>
+{% endblock %}
+
+
+<!-- ----------------------------------------------- -->
+<!-- ------------------Body Starts------------------ -->
+<!-- ----------------------------------------------- -->
+{% block content %}
+
+<div class="container">
+
+  <h1 id="name">Welcome <a href="#" onclick="userLogout()" class="btn btn-info btn-lg" style="float: right;">
+      <span class="glyphicon glyphicon-log-out"></span> Log out
+    </a></h1>
+
+  <br>
+  <p id="auth">User Authenticated = </p>
+  <p id="userId">UserId = </p>
+  <br>
+
+  <br>
+  <h2>Delete Account Page</h2>
+  <br><br>
+  <!-- BACK TO Profile -->
+  <div class="card bg-success text-white">
+    <a href="{% url 'userSpace' %}" style="color: white;">
+      <div class="card-body" style="text-align: center;">
+        <p style="font-size: x-large; color: black;"><b>BACK</b></p>
+      </div>
+    </a>
+  </div>
+
+  <br>
+</div>
+
+{% endblock %}

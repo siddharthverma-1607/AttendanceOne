@@ -19,6 +19,19 @@ def getConnection():
 
 
 def authUser(email, password):
+    """
+    Used for authenticating user and redirecting to userSpace if authenticated.
+
+    Parameters
+    ----------
+    arg1 : email
+    arg2 : password        
+
+    Returns
+    -------
+    [string]
+    Redirects to UserSpace or returns string on failed Authentication,
+    """
     connection = getConnection()
     # Database
     Database = connection.get_database('attendanceOneUser')
@@ -33,6 +46,8 @@ def authUser(email, password):
     else:
         connection.close()
         if base64.b64encode(password.encode("utf-8")) == query["password"]:
+            print(query["_id"])
+            query["userId"] = query["_id"]
             return [True, query]
         else:
             return "Password is incorrect"

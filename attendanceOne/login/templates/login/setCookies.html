@@ -1,0 +1,68 @@
+{% extends 'main/base.html' %}
+{% block title %}
+setCookies
+{% endblock %}
+
+{% block head %}
+<script>
+  // Function to set cookie 
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+
+</script>
+{% endblock %}
+
+
+{% block content %}
+<!-- ------------------------------------ -->
+<!-- To redirect if auth token is absent  -->
+<!-- ------------------------------------ -->
+{% if auth == None %}
+<script lang="javascript">
+  window.location.href = '/login/';
+</script>
+{% endif %}
+
+
+{% if auth == True %}
+<script lang="javascript">
+  var name = "{{ name }}";
+  var userId = "{{ userId }}";
+  var email = "{{ email }}";
+  var contact = "{{ contact }}";
+  var dob = "{{ dob }}";
+  var age = "{{ age }}";
+  var organization = "{{ organization }}";
+  var whatsappLink = "{{ socialLinks.whatsapp }}";
+  var twitterLink = "{{ socialLinks.twitter }}";
+  var linkdinLink = "{{ socialLinks.twitter }}";
+  var facebookLink = "{{ socialLinks.facebook }}";
+
+
+
+
+  // alert(userId);
+  // Setting up Cookie
+  setCookie("name", name, 30);
+  setCookie("userId", userId, 30);
+  setCookie("auth", true, 30);
+  setCookie("email", email, 30);
+  setCookie("contact", contact, 30);
+  setCookie("dob", dob, 30);
+  setCookie("age", age, 30);
+  setCookie("organization", organization, 30);
+  setCookie("whatsappLink", whatsappLink, 30);
+  setCookie("twitterLink", twitterLink, 30);
+  setCookie("linkdinLink", linkdinLink, 30);
+  setCookie("facebookLink", facebookLink, 30);
+
+
+
+</script>
+{% endif %}
+{% endblock %}
