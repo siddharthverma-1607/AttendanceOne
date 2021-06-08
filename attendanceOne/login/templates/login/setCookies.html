@@ -13,6 +13,9 @@ setCookies
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
+  document.addEventListener('DOMContentLoaded', () => {
+    window.location.href = '/login/userSpace/';
+  });
 
 </script>
 {% endblock %}
@@ -65,4 +68,6 @@ setCookies
 
 </script>
 {% endif %}
+
+<br>
 {% endblock %}

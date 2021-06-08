@@ -2,6 +2,7 @@ from django.shortcuts import render
 from . import loginDAO as dao
 from io import BytesIO
 from PIL import Image
+import face_recognition
 # Create your views here.
 
 
@@ -20,7 +21,7 @@ def login(response):
             # print(result[1])
             result[1]["auth"] = True
             return render(response, "login/setCookies.html", result[1])
-            # return render(response, "login/userSpace.html", result[1])
+
         else:
             return render(response, "login/login.html", {"result": result})
     else:
@@ -33,16 +34,22 @@ def userSpace(response):
 
 def addUser(response):
     if response.method == "POST":
-        name = response.POST.get("name")
+        name = response.POST.get("userName")
         roll = response.POST.get("roll")
         img = response.FILES['img']
-        img = BytesIO(img.read())
+        userId = response.POST.get("userId")
+        #img = BytesIO(img.read())
+        # print(img)
         img = Image.open(img)
-        img.show()
+        image_bytes = BytesIO()
+        img.save(image_bytes, format='JPEG')
+        # img.show()
+        attendeeDetails = {'name': name, 'roll': roll,
+                           'img': image_bytes.getvalue(), 'userId': userId}
+        query = dao.sendAttendeeDetails(attendeeDetails)
+        # print(query)
 
-        print(img)
-
-        return render(response, "login/addUser.html", {'done': 'yes'})
+        return render(response, "login/addUser.html", query)
     else:
         return render(response, "login/addUser.html")
 

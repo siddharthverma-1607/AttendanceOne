@@ -50,7 +50,7 @@ addUser
     }
     document.getElementById("name").innerHTML += getCookie("name");
     // document.getElementById("auth").innerHTML += getCookie("auth");
-    // document.getElementById("userId").innerHTML += getCookie("userId");
+    document.getElementById("userId").value += getCookie("userId");
   }, false);
 </script>
 {% endblock %}
@@ -79,6 +79,13 @@ addUser
   <form method="post" action="/login/addUser/" enctype="multipart/form-data">
     {% csrf_token %}
 
+    <!-- Form Row 0 -->
+    {% if userLimit != None %}
+    <div class="form-group input-group">
+      <input type="text" id="userLimit" class="form-control-file" name="attendeeLimit"
+        value="Attendee Limit Left = {{ userLimit }}" readonly required>
+    </div> <!-- form-group end.// -->
+    {% endif %}
 
     <!-- Form Row 1 -->
     <div class="form-group input-group">
@@ -88,6 +95,7 @@ addUser
       <input class="form-control" name="userName" placeholder="Enter Attendee Name" type="text" id="userName"
         maxlength="200" minlength="3" title="Enter a valid Name" required>
     </div> <!-- form-group end.// -->
+
 
     <!-- Form Row 2 -->
     <div class="form-group input-group">
@@ -105,6 +113,12 @@ addUser
       <input type="file" id="img" class="form-control-file" name="img" accept="image/*" required>
     </div> <!-- form-group end.// -->
 
+
+    <!-- Form Row 4 -->
+    <div class="form-group input-group">
+      <input type="text" id="userId" class="form-control-file" name="userId" hidden readonly required>
+    </div> <!-- form-group end.// -->
+
     <br>
     <button type="submit" class="btn btn-primary btn-block" name="submit">Add User</button>
     <br>
@@ -113,6 +127,20 @@ addUser
       <button type="button" class="btn btn-success btn-block" name="back">Back</button></a>
   </form>
 
+  <!-- If user is added and routed back then -->
+  {% if userAdded %}
+
+  <script>
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'New Attendee - {{ name }} Added Successfully!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  </script>
+
+  {% endif %}
 
   <br>
 </div>

@@ -37,7 +37,7 @@ def addNewUser(userObject):
     #  calculating user age
     born = datetime.strptime(
         userObject.dob, '%Y-%m-%d')
-    print(born)
+
     today = date.today()
     age = today.year - born.year - \
         ((today.month, today.day) < (born.month, born.day))
@@ -55,8 +55,8 @@ def addNewUser(userObject):
 
     # Inserting into userDB
     queryId = userTable.insert_one(queryObject)
-    print(queryId)
-    print(queryId.inserted_id)
+
+    # print(queryId.inserted_id, str(queryId.inserted_id))
     connection.close()
     # Creating UserSpace in UserSpace Table
     createUserSpace(queryId)
@@ -79,7 +79,7 @@ def createUserSpace(queryId):
     userSpaceTable = Database.userSpace
 
     queryObject = {
-        'userId': queryId.inserted_id,
+        'userId': str(queryId.inserted_id),
         # userDetail : [ {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]} ]
         'userDetails': [],
         # 'recordTaken' : [ date-1, date-2, date-3, date-N],
