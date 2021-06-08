@@ -9,6 +9,8 @@ verify_ssl = true
 django = "*"
 pymongo = "*"
 dnspython = "*"
+pillow = "*"
+face-recognition = "*"
 
 [requires]
 python_version = "3.7"

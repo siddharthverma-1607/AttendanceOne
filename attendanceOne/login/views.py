@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from . import loginDAO as dao
+from io import BytesIO
+from PIL import Image
 # Create your views here.
 
 
@@ -30,7 +32,19 @@ def userSpace(response):
 
 
 def addUser(response):
-    return render(response, "login/addUser.html")
+    if response.method == "POST":
+        name = response.POST.get("name")
+        roll = response.POST.get("roll")
+        img = response.FILES['img']
+        img = BytesIO(img.read())
+        img = Image.open(img)
+        img.show()
+
+        print(img)
+
+        return render(response, "login/addUser.html", {'done': 'yes'})
+    else:
+        return render(response, "login/addUser.html")
 
 
 def deleteAccount(response):

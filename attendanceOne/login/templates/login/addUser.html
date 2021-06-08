@@ -49,8 +49,8 @@ addUser
       window.location.href = '/login/';
     }
     document.getElementById("name").innerHTML += getCookie("name");
-    document.getElementById("auth").innerHTML += getCookie("auth");
-    document.getElementById("userId").innerHTML += getCookie("userId");
+    // document.getElementById("auth").innerHTML += getCookie("auth");
+    // document.getElementById("userId").innerHTML += getCookie("userId");
   }, false);
 </script>
 {% endblock %}
@@ -66,23 +66,53 @@ addUser
   <h1 id="name">Welcome <a href="#" onclick="userLogout()" class="btn btn-info btn-lg" style="float: right;">
       <span class="glyphicon glyphicon-log-out"></span> Log out
     </a></h1>
-
+  <!-- 
   <br>
   <p id="auth">User Authenticated = </p>
   <p id="userId">UserId = </p>
-  <br>
+  <br> -->
 
   <br>
-  <h2>Update User Page</h2>
+  <h2>Add User Page </h2>
   <br><br>
-  <!-- BACK TO Profile -->
-  <div class="card bg-success text-white">
-    <a href="{% url 'userSpace' %}" style="color: white;">
-      <div class="card-body" style="text-align: center;">
-        <p style="font-size: x-large; color: black;"><b>BACK</b></p>
+
+  <form method="post" action="/login/addUser/" enctype="multipart/form-data">
+    {% csrf_token %}
+
+
+    <!-- Form Row 1 -->
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
       </div>
-    </a>
-  </div>
+      <input class="form-control" name="userName" placeholder="Enter Attendee Name" type="text" id="userName"
+        maxlength="200" minlength="3" title="Enter a valid Name" required>
+    </div> <!-- form-group end.// -->
+
+    <!-- Form Row 2 -->
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fa fa-address-book"></i> </span>
+      </div>
+      <input class="form-control" name="roll" placeholder="Enter Attendee Roll No | Employee No" type="number" id="roll"
+        maxlength="20" title="Enter a valid number" required>
+    </div> <!-- form-group end.// -->
+
+
+    <!-- Form Row 3 -->
+    <div class="form-group input-group">
+      <span class="label label-info">Select Attendee image: </span>
+      <input type="file" id="img" class="form-control-file" name="img" accept="image/*" required>
+    </div> <!-- form-group end.// -->
+
+    <br>
+    <button type="submit" class="btn btn-primary btn-block" name="submit">Add User</button>
+    <br>
+    <!-- Back -->
+    <a href="{% url 'userSpace' %}">
+      <button type="button" class="btn btn-success btn-block" name="back">Back</button></a>
+  </form>
+
 
   <br>
 </div>
