@@ -41,6 +41,24 @@ shareLink
     return "";
   }
 
+
+  // Generate link in linkBox and make linkBox visible
+  function generateLink() {
+    document.getElementById("url").value = "https://" + window.location.hostname + "/attendance/" + getCookie("userId") + "/";
+    document.getElementById("linkBox").style.display = "block";
+  }
+
+  // To copy link to clipboard
+  function copyToClipboard() {
+    var copyText = document.getElementById("url");
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+  }
   // Onload DOM event to check if cookie("auth") is true
   // else redirect to login page
   // if true then set cookies value in innerHTML
@@ -49,10 +67,16 @@ shareLink
       window.location.href = '/login/';
     }
     document.getElementById("name").innerHTML += getCookie("name");
-    document.getElementById("auth").innerHTML += getCookie("auth");
+    // document.getElementById("auth").innerHTML += getCookie("auth");
     document.getElementById("userId").innerHTML += getCookie("userId");
   }, false);
 </script>
+
+<style>
+  #linkBox {
+    display: none;
+  }
+</style>
 {% endblock %}
 
 
@@ -68,12 +92,28 @@ shareLink
     </a></h1>
 
   <br>
-  <p id="auth">User Authenticated = </p>
+  <!-- <p id="auth">User Authenticated = </p> -->
   <p id="userId">UserId = </p>
   <br>
 
   <br>
   <h2>Share Link Page</h2>
+  <br><br>
+
+  <!-- ---------------Share link starts here-------------- -->
+
+  <button type="button" class="btn btn-primary" onclick="generateLink()">Generate Link</button>
+  <br><br>
+
+  <div class="form" id="linkBox">
+    <input type="text" id="url" class="form-control-file" name="url" readonly required>
+    <button type="button" class="btn btn-secondary float-right" onclick="copyToClipboard()">Copy to
+      Clipboard</button><br>
+  </div>
+  <br>
+  <!-- ---------------Share link ends here-------------- -->
+
+
   <br><br>
   <!-- BACK TO Profile -->
   <div class="card bg-success text-white">

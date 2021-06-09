@@ -16,11 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from register import views as registerView
+from markAttendance import views as markAttendanceView
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 #from login import views as loginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/", registerView.register, name="register"),
     path("login/", include("login.urls")),
+    path("attendance/<userid>/", markAttendanceView.attendance, name="attendance"),
     path('', include("main.urls")),
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
