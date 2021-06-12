@@ -22,67 +22,52 @@ Mark-Attendace
 </script>
 {% endif %}
 
-<br>
-<table>
-  <tr>
-    <td valign=top>
-      <h1>JPEGCam Test Page</h1>
+<div id="camera" style="height:auto;width:auto; text-align:left;"></div>
 
-      <!-- First, include the JPEGCam JavaScript Library -->
-      {% load static %}
-      <script src="{% static '/markAttendance/webcam.js' %}"></script>
+<!--FOR THE SNAPSHOT-->
+<input type="button" value="Take a Snap" id="btPic" onclick="takeSnapShot()" />
+<p id="snapShot"></p>
 
-      <!-- Configure a few settings -->
-      <script language="JavaScript">
-        Webcam.set_api_url('/attendance/{{ userid }}/');
-        Webcam.set_quality(90); // JPEG quality (1 - 100)
-        Webcam.set_shutter_sound(true); // play shutter click sound
-      </script>
+<form method="post" action="/attendance/{{ userid }}/">
+  {% csrf_token %}
 
-      <!-- Next, write the movie to the page at 320x240 -->
-      <script language="JavaScript">
-        document.write(webcam.get_html(320, 240));
-      </script>
+  <div class="form-group input-group">
+    <input type="text" id="result" class="form-control-file" name="result" value="Waiting for Image" readonly required>
+  </div> <!-- form-group end.// -->
+  <p id="snapShot"></p>
+  <br>
+  <button type="submit" class="btn btn-primary btn-block" name="markAttendance">Mark Attendance</button>
 
-      <!-- Some buttons for controlling things -->
-      <br />
-      <form>
-        <input type=button value="Configure..." onClick="webcam.configure()">
-        &nbsp;&nbsp;
-        <input type=button value="Take Snapshot" onClick="take_snapshot()">
-      </form>
+</form>
+</body>
 
-      <!-- Code to handle the server response (see test.php) -->
-      <script language="JavaScript">
-        webcam.set_hook('onComplete', 'my_completion_handler');
+<!-- Taking Image and send data to Table -->
+<script>
+  // CAMERA SETTINGS.
+  // Webcam.set_api_url('/user/save_image/');
+  // Webcam.set_quality(90); // JPEG quality (1 - 100)
+  // Webcam.set_shutter_sound(true); // play shutter click sound
+  Webcam.set({
+    width: 220,
+    height: 190,
+    image_format: 'jpeg',
+    jpeg_quality: 100
+  });
+  Webcam.attach('#camera');
 
-        function take_snapshot() {
-          // take snapshot and upload to server
-          document.getElementById('upload_results').innerHTML = '<h1>Uploading...</h1>';
-          webcam.snap();
-        }
+  // SHOW THE SNAPSHOT.
+  takeSnapShot = function () {
+    Webcam.snap(function (data_uri) {
+      document.getElementById('result').value = data_uri;
+      console.log(data_uri);
+      document.getElementById('snapShot').innerHTML =
+        '<img src="' + data_uri + '" width="70px" height="50px" />';
+    });
+  }
 
-        function my_completion_handler(msg) {
-          if (msg.match(/(http\:\/\/\S+)/)) {
-            var image_url = RegExp.$1;
-            // show JPEG image in page
-            document.getElementById('upload_results').innerHTML =
-              '<h1>Upload Successful!</h1>' +
-              '<h3>JPEG URL: ' + image_url + '</h3>' +
-              '<img src="' + image_url + '">';
 
-            // reset camera for another shot
-            webcam.reset();
-          }
-          else alert("Python Error: " + msg);
-        }
-      </script>
 
-    </td>
-    <td width=50>&nbsp;</td>
-    <td valign=top>
-      <div id="upload_results" style="background-color:#eee;"></div>
-    </td>
-  </tr>
-</table>
+
+</script>
+
 {% endblock %}
