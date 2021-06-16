@@ -5,6 +5,64 @@ Mark-Attendace
 
 {% block head %}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.js"></script>
+<style>
+  #camera,
+  #camera--view,
+  #camera--sensor,
+  #camera--output {
+    position: fixed;
+    height: 50%;
+    width: 50%;
+    object-fit: cover;
+  }
+
+  #camera--view,
+  #camera--sensor,
+  #camera--output {
+    transform: scaleX(-1);
+    filter: FlipH;
+  }
+
+  #camera--trigger {
+    width: 200px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    bottom: 18%;
+    left: calc(50% - 100px);
+  }
+
+  #send {
+    width: 180px;
+    background-color: lightseagreen;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    bottom: 10%;
+    left: calc(60% - 100px);
+  }
+
+  .taken {
+    height: 100px !important;
+    width: 100px !important;
+    transition: all 0.5s ease-in;
+    border: solid 3px white;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+    top: 150px;
+    right: 180px;
+    z-index: 2;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -22,52 +80,52 @@ Mark-Attendace
 </script>
 {% endif %}
 
-<div id="camera" style="height:auto;width:auto; text-align:left;"></div>
 
-<!--FOR THE SNAPSHOT-->
-<input type="button" value="Take a Snap" id="btPic" onclick="takeSnapShot()" />
-<p id="snapShot"></p>
+<div class="container">
+  <!-- Camera -->
+  <main id="camera">
+    <!-- Camera sensor -->
+    <canvas id="camera--sensor"></canvas>
+    <!-- Camera view -->
+    <video id="camera--view" autoplay playsinline></video>
 
-<form method="post" action="/attendance/{{ userid }}/">
+    <!-- Camera output -->
+    <img src="//:0" alt="" id="camera--output">
+    <!-- Camera trigger -->
+    <button id="camera--trigger">Take a picture</button>
+    <!-- <button id="send">Mark Attendance</button> -->
+  </main>
+</div>
+
+
+<form method="post" action="/attendance/{{ userid }}/" name="myForm" id="myForm">
   {% csrf_token %}
 
-  <div class="form-group input-group">
-    <input type="text" id="result" class="form-control-file" name="result" value="Waiting for Image" readonly required>
-  </div> <!-- form-group end.// -->
-  <p id="snapShot"></p>
   <br>
-  <button type="submit" class="btn btn-primary btn-block" name="markAttendance">Mark Attendance</button>
+  <button type="button" class="btn btn-primary btn-block" name="markAttendance" onclick="sendAttendeeDetails()">Mark
+    Attendance</button>
 
 </form>
-</body>
 
-<!-- Taking Image and send data to Table -->
+<!-- Reference to your JavaScript file -->
+{% load static %}
+<script src="{% static '/markAttendance/webcam.js' %}" type="text/javascript"></script>
+
+
 <script>
-  // CAMERA SETTINGS.
-  // Webcam.set_api_url('/user/save_image/');
-  // Webcam.set_quality(90); // JPEG quality (1 - 100)
-  // Webcam.set_shutter_sound(true); // play shutter click sound
-  Webcam.set({
-    width: 220,
-    height: 190,
-    image_format: 'jpeg',
-    jpeg_quality: 100
-  });
-  Webcam.attach('#camera');
+  function sendAttendeeDetails() {
 
-  // SHOW THE SNAPSHOT.
-  takeSnapShot = function () {
-    Webcam.snap(function (data_uri) {
-      document.getElementById('result').value = data_uri;
-      console.log(data_uri);
-      document.getElementById('snapShot').innerHTML =
-        '<img src="' + data_uri + '" width="70px" height="50px" />';
-    });
+    console.log("Uploading....");
+    var image = document.getElementById('camera--output').src;
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    formData.append("file", image);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "//attendance/{{ userid }}/");
+    xmlhttp.send(formData);
+    alert(formData.get('file'));
+    alert("Hello");
   }
-
-
-
-
 </script>
 
 {% endblock %}

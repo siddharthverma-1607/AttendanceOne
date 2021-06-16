@@ -11,9 +11,7 @@ from attendanceOne import settings
 @csrf_exempt
 def attendance(response, userid):
     if response.method == "POST":
-        # f = open(settings.MEDIA_ROOT + '/webcamimages/userimage.jpg', 'wb')
-        # f.write(request.raw_post_data)
-        # f.close()
+        print(response.POST)
         return render(response, "markAttendance/markAttendance.html", {'userid': userid, 'attendeeImgSend': True})
     else:
         return render(response, "markAttendance/markAttendance.html", {'userid': userid})
