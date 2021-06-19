@@ -38,14 +38,27 @@ def addUser(response):
         roll = response.POST.get("roll")
         img = response.FILES['img']
         userId = response.POST.get("userId")
-        #img = BytesIO(img.read())
-        # print(img)
+        print(img)
+
+        # Method 1
+        # attendeeImg = b''
+        # for i in img:
+        #     attendeeImg += i
+
+        # Method 2
         img = Image.open(img)
         image_bytes = BytesIO()
         img.save(image_bytes, format='JPEG')
         # img.show()
+
+        # Method 1
+        # attendeeDetails = {'name': name, 'roll': roll,
+        #                    'img': attendeeImg, 'userId': userId}
+
+        # Method 2
         attendeeDetails = {'name': name, 'roll': roll,
                            'img': image_bytes.getvalue(), 'userId': userId}
+
         query = dao.sendAttendeeDetails(attendeeDetails)
         # print(query)
 

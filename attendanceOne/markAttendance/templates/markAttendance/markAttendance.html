@@ -121,10 +121,16 @@ Mark-Attendace
     var formData = new FormData(form);
     formData.append("file", image);
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "//attendance/{{ userid }}/");
+
+    // Add this during production
+    // xmlhttp.open("POST", "https://" + window.location.hostname + "//attendance/{{ userid }}/");
+
+    // For Development
+    xmlhttp.open("POST", "");
+
     xmlhttp.send(formData);
-    alert(formData.get('file'));
-    alert("Hello");
+    // alert(formData.get('file'));
+    // alert("Hello");
   }
 </script>
 
