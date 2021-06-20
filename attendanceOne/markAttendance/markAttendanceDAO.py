@@ -2,6 +2,7 @@ import pymongo
 import base64
 from io import BytesIO
 import face_recognition
+import numpy as np
 
 
 def getConnection():
@@ -65,24 +66,31 @@ def attendeePresent(userId, webcamImg):
     face_encoding = face_recognition.face_encodings(
         test_image)[0]
 
+    print(type(face_encoding))
+
     # Stores known face encodeing from userSpaceDB
     known_face_encodings = []
     # Stores known face names of attendee from userSpaceDB
     known_face_names = []
+    # Stores known face uniqueID of attendee from userSpaceDB
+    known_face_id = []
 
     for attendee in userAttendeeDetails['userDetails']:
         print("Attendee No. ", i)
         i += 1
 
         known_face_names.append(attendee['name'])
+        known_face_id.append(attendee['roll'])
 
         # attendeeImage = base64.b64decode(attendee['img'])
         attendeeImage = attendee['img']
-        attendeeImage = BytesIO(attendeeImage)
+        # attendeeImage = BytesIO(attendeeImage)
         # print(attendeeImage)
 
-        attendeeImage = face_recognition.load_image_file(attendeeImage)
-        encoding = face_recognition.face_encodings(attendeeImage)[0]
+        # attendeeImage = face_recognition.load_image_file(attendeeImage)
+        # encoding = face_recognition.face_encodings(attendeeImage)[0]
+
+        encoding = np.fromiter(attendeeImage, dtype=np.double)
 
         known_face_encodings.append(encoding)
 
@@ -95,6 +103,7 @@ def attendeePresent(userId, webcamImg):
         matches.reverse()
         first_match_index = (len(matches) - matches.index(True) - 1)
         name = known_face_names[first_match_index]
-        print(name)
+        attendeeID = known_face_id[first_match_index]
+        print(name, attendeeID)
 
     return result

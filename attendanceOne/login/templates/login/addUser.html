@@ -109,10 +109,27 @@ addUser
 
     <!-- Form Row 3 -->
     <div class="form-group input-group">
-      <span class="label label-info">Select Attendee image: </span>
+      <span class="label label-info">Select Attendee image: <font color="red">*[max size - 400 Kbs]</font></span>
       <input type="file" id="img" class="form-control-file" name="img" accept="image/*" required>
     </div> <!-- form-group end.// -->
 
+    <script>
+      var uploadField = document.getElementById("img");
+
+      uploadField.onchange = function () {
+        if (this.files[0].size > 420000) {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'File Size Exceeded!',
+            footer: 'Select a file of size upto 100Kbs',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.value = "";
+        };
+      };
+    </script>
 
     <!-- Form Row 4 -->
     <div class="form-group input-group">

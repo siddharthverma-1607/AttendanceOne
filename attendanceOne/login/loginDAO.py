@@ -73,6 +73,7 @@ def sendAttendeeDetails(attendeeDetails):
     query Object - New Attendee object
 
     """
+    result = {}
     connection = getConnection()
 
     # Database
@@ -110,4 +111,23 @@ def sendAttendeeDetails(attendeeDetails):
         result = {'userAdded': True, 'userLimit': userLimit}
 
     connection.close()
+    return result
+
+
+def getUserLimit(userId):
+    result = {}
+    connection = getConnection()
+
+    # Database
+    Database = connection.get_database('attendanceOneUser')
+
+    userSpaceTable = Database.userSpace
+
+    query = userSpaceTable.find_one({'userId': userId})
+
+    userLimit = query["userLimit"]
+
+    if query != None:
+        result = {'userLimit': userLimit}
+
     return result
