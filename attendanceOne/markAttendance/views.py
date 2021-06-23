@@ -8,7 +8,6 @@ from . import markAttendanceDAO as dao
 # Create your views here.
 
 
-@csrf_exempt
 def attendance(response, userid):
     if response.method == "POST":
         attendeeImg = response.POST.get('file')
@@ -25,9 +24,10 @@ def attendance(response, userid):
         checkAttendee = dao.attendeePresent(userid, img)
         if checkAttendee[0]:
             print("Attendance Marked")
+            return render(response, "markAttendance/markAttendance.html", {'userid': '1612810099', 'result': 'True'})
         else:
             print("Who are you?!")
 
-        return render(response, "markAttendance/markAttendance.html", {'userid': userid, 'attendeeImgSend': True})
+        return render(response, "markAttendance/markAttendance.html", {'userid': userid, 'result': 'True'})
     else:
         return render(response, "markAttendance/markAttendance.html", {'userid': userid})

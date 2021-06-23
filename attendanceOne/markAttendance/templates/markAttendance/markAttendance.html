@@ -33,23 +33,17 @@ Mark-Attendace
     padding: 15px 20px;
     text-align: center;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
-    position: fixed;
+    position: absolute;
     bottom: 18%;
-    left: calc(50% - 100px);
+    left: 7%;
   }
 
-  #send {
-    width: 180px;
-    background-color: lightseagreen;
-    color: white;
-    border-radius: 30px;
-    border: none;
-    padding: 15px 20px;
-    text-align: center;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
-    position: fixed;
-    bottom: 10%;
-    left: calc(60% - 100px);
+  .send {
+    bottom: 18%;
+    position: absolute;
+    width: 30%;
+    /* margin-right: 10px; */
+    right: 7%;
   }
 
   .taken {
@@ -66,6 +60,7 @@ Mark-Attendace
 {% endblock %}
 
 {% block content %}
+{{ result }}
 {{ userid }}
 
 {% if attendeeImgSend %}
@@ -91,21 +86,23 @@ Mark-Attendace
 
     <!-- Camera output -->
     <img src="//:0" alt="" id="camera--output">
-    <!-- Camera trigger -->
-    <button id="camera--trigger">Take a picture</button>
     <!-- <button id="send">Mark Attendance</button> -->
   </main>
 </div>
+<!-- Camera trigger -->
+<button id="camera--trigger">Take a picture</button>
 
 
-<form method="post" action="/attendance/{{ userid }}/" name="myForm" id="myForm">
-  {% csrf_token %}
+<div class="send">
+  <form method="post" action="/attendance/{{ userid }}/" name="myForm" id="myForm">
+    {% csrf_token %}
 
-  <br>
-  <button type="button" class="btn btn-primary btn-block" name="markAttendance" onclick="sendAttendeeDetails()">Mark
-    Attendance</button>
+    <br>
+    <button type="button" class="btn btn-primary btn-block" name="markAttendance" onclick="sendAttendeeDetails()">Mark
+      Attendance</button>
 
-</form>
+  </form>
+</div>
 
 <!-- Reference to your JavaScript file -->
 {% load static %}
@@ -114,24 +111,47 @@ Mark-Attendace
 
 <script>
   function sendAttendeeDetails() {
-
-    console.log("Uploading....");
     var image = document.getElementById('camera--output').src;
-    var form = document.getElementById('myForm');
-    var formData = new FormData(form);
-    formData.append("file", image);
-    var xmlhttp = new XMLHttpRequest();
 
-    // Add this during production
-    // xmlhttp.open("POST", "https://" + window.location.hostname + "//attendance/{{ userid }}/");
+    if ((image == 'http://:0/') || (image == 'https://:0/')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Picture not taken!',
+        text: "Click the - 'Take a Picture' Button to take your image!",
+      })
+    }
+    else {
+      console.log("Uploading....");
+      var form = document.getElementById('myForm');
+      var formData = new FormData(form);
+      formData.append("file", image);
+      var xmlhttp = new XMLHttpRequest();
 
-    // For Development
-    xmlhttp.open("POST", "");
+      // Add this during production
+      // xmlhttp.open("POST", "https://" + window.location.hostname + "//attendance/{{ userid }}/");
 
-    xmlhttp.send(formData);
-    // alert(formData.get('file'));
-    // alert("Hello");
+      // For Development
+      xmlhttp.open("POST", "");
+
+      xmlhttp.send(formData);
+      // alert(formData.get('file'));
+      // alert("Hello");
+
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Attendance Marked if you are part of this group!',
+        // showConfirmButton: false,
+        // timer: 1500
+      }).then((result) => {
+        window.location.href = window.location.origin; // for development
+        // window.location.href = "https://"+window.location.hostname; 
+
+      })
+    }
+
   }
+
 </script>
 
 {% endblock %}
