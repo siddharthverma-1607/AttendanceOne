@@ -33,40 +33,46 @@ def userSpace(response):
 
 
 def addUser(response):
+
     if response.method == "POST":
-        name = response.POST.get("userName")
-        roll = response.POST.get("roll")
-        img = response.FILES['img']
         userId = response.POST.get("userId")
-        print(img)
+        limit = dao.getUserLimit(userId)
+        print(limit)
+        if limit['userLimit'] == 0:
+            return render(response, "login/addUser.html", limit)
+        else:
+            name = response.POST.get("userName")
+            roll = response.POST.get("roll")
+            img = response.FILES['img']
+            print(img)
 
-        # Method 1
-        attendeeImg = b''
-        for i in img:
-            attendeeImg += i
-        attendeeImg = BytesIO(attendeeImg)
-        attendeeImg = face_recognition.load_image_file(attendeeImg)
-        encoding = face_recognition.face_encodings(attendeeImg)[0].tolist()
-        print(encoding)
+            # Method 1
+            attendeeImg = b''
+            for i in img:
+                attendeeImg += i
+            attendeeImg = BytesIO(attendeeImg)
+            attendeeImg = face_recognition.load_image_file(attendeeImg)
+            encoding = face_recognition.face_encodings(attendeeImg)[0].tolist()
+            print(encoding)
 
-        # Method 2
-        # img = Image.open(img)
-        # image_bytes = BytesIO()
-        # img.save(image_bytes, format='JPEG')
-        # img.show()
+            # Method 2
+            # img = Image.open(img)
+            # image_bytes = BytesIO()
+            # img.save(image_bytes, format='JPEG')
+            # img.show()
 
-        # Method 1
-        attendeeDetails = {'name': name, 'roll': roll,
-                           'img': encoding, 'userId': userId}
+            # Method 1
+            attendeeDetails = {'name': name, 'roll': roll,
+                               'img': encoding, 'userId': userId}
 
-        # Method 2
-        # attendeeDetails = {'name': name, 'roll': roll,
-        #                    'img': image_bytes.getvalue(), 'userId': userId}
+            # Method 2
+            # attendeeDetails = {'name': name, 'roll': roll,
+            #                    'img': image_bytes.getvalue(), 'userId': userId}
 
-        query = dao.sendAttendeeDetails(attendeeDetails)
-        # print(query)
+            query = dao.sendAttendeeDetails(attendeeDetails)
+            # print(query)
 
-        return render(response, "login/addUser.html", query)
+            return render(response, "login/addUser.html", query)
     else:
         return render(response, "login/addUser.html")
 

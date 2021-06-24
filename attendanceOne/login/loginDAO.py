@@ -129,5 +129,5 @@ def getUserLimit(userId):
 
     if query != None:
         result = {'userLimit': userLimit}
-
+    connection.close()
     return result
