@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import RequestContext
+
 from .import models
 
 # Create your views here.
@@ -19,3 +21,7 @@ def about(response):
 
 def documentation(response):
     return render(response, "main/document.html", {})
+
+
+def page_not_found(request, exception):
+    return render(request, 'main/404.html')

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from register import views as registerView
 from markAttendance import views as markAttendanceView
+from upgrade import views as upgradeView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,5 +30,9 @@ urlpatterns = [
     path("login/", include("login.urls")),
     path("attendance/<userid>/", markAttendanceView.attendance, name="attendance"),
     path('', include("main.urls")),
+    path('upgrade/', upgradeView.upgrade, name="upgrade"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = "main.views.page_not_found"

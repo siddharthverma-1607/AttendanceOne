@@ -1,0 +1,386 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Upgrade User
+{% endblock %}
+
+{% block head %}
+
+<style>
+  #price {
+    text-align: center;
+  }
+
+  .plan {
+    display: inline-block;
+    margin: 10px 1%;
+    font-family: 'Lato', Arial, sans-serif;
+  }
+
+  .plan-inner {
+    background: #fff;
+    margin: 0 auto;
+    min-width: 280px;
+    max-width: 100%;
+    position: relative;
+  }
+
+  .entry-title {
+    background: #53CFE9;
+    height: 140px;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 30px;
+  }
+
+  .entry-title>h3 {
+    background: #20BADA;
+    font-size: 20px;
+    padding: 5px 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .entry-title .price {
+    position: absolute;
+    bottom: -25px;
+    background: #20BADA;
+    height: 95px;
+    width: 95px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    border-radius: 50px;
+    border: 5px solid #fff;
+    line-height: 80px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .price span {
+    position: absolute;
+    font-size: 9px;
+    bottom: -10px;
+    left: 30px;
+    font-weight: 400;
+  }
+
+  .entry-content {
+    color: #323232;
+  }
+
+  .entry-content ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+  }
+
+  .entry-content li {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px 0;
+  }
+
+  .entry-content li:last-child {
+    border: none;
+  }
+
+  .btn1 {
+    padding: 3em 0;
+    text-align: center;
+  }
+
+  .btn1 a {
+    background: #323232;
+    padding: 10px 30px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none
+  }
+
+  .hot {
+    position: absolute;
+    top: -7px;
+    background: #F80;
+    color: #fff;
+    text-transform: uppercase;
+    z-index: 2;
+    padding: 2px 5px;
+    font-size: 9px;
+    border-radius: 2px;
+    right: 10px;
+    font-weight: 700;
+  }
+
+  .basic .entry-title {
+    background: #75DDD9;
+  }
+
+  .basic .entry-title>h3 {
+    background: #44CBC6;
+  }
+
+  .basic .price {
+    background: #44CBC6;
+  }
+
+  .standard .entry-title {
+    background: #4484c1;
+  }
+
+  .standard .entry-title>h3 {
+    background: #3772aa;
+  }
+
+  .standard .price {
+    background: #3772aa;
+  }
+
+  .ultimite .entry-title>h3 {
+    background: #DD4B5E;
+  }
+
+  .ultimite .entry-title {
+    background: #F75C70;
+  }
+
+  .ultimite .price {
+    background: #DD4B5E;
+  }
+
+  .personal .entry-title>h3 {
+    background: #53ad2a;
+  }
+
+  .personal .entry-title {
+    background: #72d842;
+  }
+
+  .personal .price {
+    background: #53ad2a;
+  }
+</style>
+
+<script type="text/javascript">
+
+  // Logout Function to delete cookies and redirect to loginpage
+  function userLogout() {
+    document.cookie = "name" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "auth" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "userId" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "email" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "contact" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "dob" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "age" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "organization" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "whatsappLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "twitterLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "linkdinLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "facebookLink" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location.href = '/login/';
+
+  }
+
+  // Function to get cookie value
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Onload DOM event to check if cookie("auth") is true
+  // else redirect to login page
+  // if true then set cookies value in innerHTML
+  document.addEventListener('DOMContentLoaded', function () {
+    if (getCookie("auth") != "true") {
+      window.location.href = '/login/';
+    }
+    document.getElementById("name").innerHTML += getCookie("name");
+    // document.getElementById("auth").innerHTML += getCookie("auth");
+    document.getElementById("userId").value += getCookie("userId");
+  }, false);
+</script>
+{% endblock %}
+
+
+<!-- ----------------------------------------------- -->
+<!-- ------------------Body Starts------------------ -->
+<!-- ----------------------------------------------- -->
+{% block content %}
+<!-- 
+  <br>
+  <p id="auth">User Authenticated = </p>
+  <p id="userId">UserId = </p>
+  <br> -->
+
+<!--  user has exhausted all free attendee limits -->
+
+<div class="container">
+
+  <h1 id="name">Welcome <a href="#" onclick="userLogout()" class="btn btn-info btn-lg" style="float: right;">
+      <span class="glyphicon glyphicon-log-out"></span> Log out
+    </a></h1>
+
+  <br>
+  <h2>Get Your Upgrade Today!😉 </h2>
+  <br><br>
+  <h3 style="font-family: 'Courier New', Courier, monospace;color: brown;">⚠ You have Exhausted your Free Quota, Please
+    Upgrade</h3>
+  <br>
+  <form method="post" action="/login/addUser/">
+    {% csrf_token %}
+
+    <!-- Form Row 0 -->
+    <div class="form-group input-group">
+      <input type="text" id="userId" class="form-control-file" name="userId" hidden readonly required>
+    </div> <!-- form-group end.// -->
+
+  </form>
+
+
+  <div id="price">
+    <!--personal price tab-->
+    <div class="plan personal">
+      <div class="plan-inner">
+        <div class="entry-title">
+          <h3>Personal +</h3>
+          <div class="price">₹99<span>/Month</span>
+          </div>
+        </div>
+        <div class="entry-content">
+          <ul>
+            <li>Add upto <strong>20 Attendees</strong></li>
+            <li><strong>1x</strong> Batch [1*20 = 20 attendees]</li>
+            <li>No <strong>additional Batch</strong></li>
+            <li><strong>Unlimited call</strong> API for project</li>
+            <li><strong>Best for personal or <br>hobby projects.</strong></li>
+            <!-- <li><strong>Free</strong> option 4</li>
+            <li><strong>Unlimited</strong> option 5</li> -->
+          </ul>
+        </div>
+        <div class="btn1">
+          <a href="#">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- end of personal price tab-->
+
+    <!--price tab-->
+    <div class="plan">
+      <div class="plan-inner">
+        <div class="entry-title">
+          <h3>Basic +</h3>
+          <div class="price">₹399<span>/Month</span>
+          </div>
+        </div>
+        <div class="entry-content">
+          <ul>
+            <li>Add upto <strong>50 Attendees</strong></li>
+            <li><strong>1x</strong> Batch [1*50 = 50 attendees]</li>
+            <li>Add <strong>₹150/Batch</strong><br>[50 Attendees per Batch]</li>
+            <li><strong>Unlimited call</strong> API for project</li>
+            <li><strong>Support and help</strong></li>
+            <!-- <li><strong>Free</strong> option 4</li>
+            <li><strong>Unlimited</strong> option 5</li> -->
+          </ul>
+        </div>
+        <div class="btn1">
+          <a href="#">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- end of price tab-->
+    <!--price tab-->
+    <div class="plan basic">
+      <div class="plan-inner">
+        <div class="hot">hot</div>
+        <div class="entry-title">
+          <h3>Express +</h3>
+          <div class="price">₹599<span>/Month</span>
+          </div>
+        </div>
+        <div class="entry-content">
+          <ul>
+            <li>Add upto <strong>150 Attendees</strong></li>
+            <li><strong>3x</strong> Batch [3*50 = 150 attendees]</li>
+            <li>Add <strong>₹100/Batch</strong><br>[50 Attendees per Batch]</li>
+            <li><strong>Unlimited call</strong> API for project</li>
+            <li><strong>Priortized Support and help</strong></li>
+          </ul>
+        </div>
+        <div class="btn1">
+          <a href="#">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- end of price tab-->
+    <!--price tab-->
+    <div class="plan standard">
+      <div class="plan-inner">
+        <div class="entry-title">
+          <h3>Super +</h3>
+          <div class="price">₹799<span>/Month</span>
+          </div>
+        </div>
+        <div class="entry-content">
+          <ul>
+            <li>Add upto <strong>250 Attendees</strong></li>
+            <li><strong>5x</strong> Batch [5*50 = 250 attendees]</li>
+            <li>Add <strong>₹75/Batch</strong><br>[50 Attendees per Batch]</li>
+            <li><strong>Unlimited call</strong> API for project</li>
+            <li><strong>Best for Private brands</strong></li>
+            <li><strong>Priortized+ Support and help</strong></li>
+          </ul>
+        </div>
+        <div class="btn1">
+          <a href="#">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- end of price tab-->
+    <!--price tab-->
+    <div class="plan ultimite">
+      <div class="plan-inner">
+        <div class="entry-title">
+          <h3>Enterprise +</h3>
+          <div class="price">₹999<span>/Month</span>
+          </div>
+        </div>
+        <div class="entry-content">
+          <ul>
+            <li>Add upto <strong>750 Attendees</strong></li>
+            <li><strong>15x</strong> Batch [15*50 = 750 attendees]</li>
+            <li>Add <strong>₹50/Batch</strong><br>[50 Attendees per Batch]</li>
+            <li><strong>Unlimited call</strong> API for project</li>
+            <li><strong>Best for colleges/E-classes</strong></li>
+            <li><strong>Priortized++ Support and help</strong></li>
+          </ul>
+        </div>
+        <div class="btn1">
+          <a href="#">Order Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- end of price tab-->
+  </div>
+
+  <br><br>
+  <!-- Back -->
+  <a href="{% url 'userSpace' %}">
+    <button type="button" class="btn btn-success btn-block" name="back">Back</button></a>
+</div>
+
+{% endblock %}
