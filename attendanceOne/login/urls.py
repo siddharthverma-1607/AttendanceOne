@@ -10,6 +10,6 @@ urlpatterns = [
     path("deleteUser/", views.deleteUser, name="deleteUser"),
     path("shareLink/", views.shareLink, name="shareLink"),
     path("updateUser/", views.updateUser, name="updateUser"),
-    path("viewAttendance/", views.viewAttendance, name="viewAttendance"),
+    # path("viewAttendance/", views.viewAttendance, name="viewAttendance"),
 
 ]

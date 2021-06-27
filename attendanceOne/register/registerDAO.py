@@ -83,8 +83,8 @@ def createUserSpace(queryId):
         # userDetail : [ {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]}, {image-1, roll-1, name-1, datePresent[]} ]
         'userDetails': [],
         # 'recordTaken' : [ date-1, date-2, date-3, date-N],
-        'recordTaken': [],
-        'userLimit': 10
+        'recordTaken': {},
+        'userLimit': 5
     }
 
     query = userSpaceTable.insert_one(queryObject)

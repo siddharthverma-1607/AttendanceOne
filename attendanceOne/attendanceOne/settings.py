@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'login.apps.LoginConfig',
     'markAttendance.apps.MarkattendanceConfig',
     'upgrade.apps.UpgradeConfig',
+    'viewattendance.apps.ViewattendanceConfig',
 ]
 
 MIDDLEWARE = [

@@ -91,7 +91,3 @@ def shareLink(response):
 
 def updateUser(response):
     return render(response, "login/updateUser.html")
-
-
-def viewAttendance(response):
-    return render(response, "login/viewAttendance.html")

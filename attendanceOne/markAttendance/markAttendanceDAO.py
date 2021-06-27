@@ -1,8 +1,11 @@
+import re
 import pymongo
 import base64
 from io import BytesIO
 import face_recognition
 import numpy as np
+from datetime import datetime, timedelta
+import pytz
 
 
 def getConnection():
@@ -105,5 +108,47 @@ def attendeePresent(userId, webcamImg):
         name = known_face_names[first_match_index]
         attendeeID = known_face_id[first_match_index]
         print(name, attendeeID)
+        setAttendanceRecord(attendeeID, userId)
 
     return result
+
+
+def setAttendanceRecord(attendeeID, userId):
+    connection = getConnection()
+
+    # Database
+    Database = connection.get_database('attendanceOneUser')
+
+    userSpaceTable = Database.userSpace
+
+    query = userSpaceTable.find_one({'userId': userId})
+
+    recordTaken = query['recordTaken']
+
+    IST = pytz.timezone('Asia/Kolkata')
+    today = datetime.now(IST).date().strftime('%d:%m:%Y')
+
+    if today in recordTaken:
+        if attendeeID not in recordTaken[today]:
+            recordTaken[today].append(attendeeID)
+            # Update recordTaken
+            query = userSpaceTable.update(
+                {'_id': query['_id']},
+                {'$set': {
+                    "recordTaken."+today: recordTaken[today]
+                }}
+            )
+        else:
+            print("Attendance already marked")
+    else:
+        recordTaken[today] = [attendeeID]
+
+        # Add new date recordTaken
+        query = userSpaceTable.update(
+            {'_id': query['_id']},
+            {'$set': {
+                "recordTaken": recordTaken
+            }}
+        )
+
+    connection.close()
