@@ -49,7 +49,7 @@ viewAttendance
       window.location.href = '/login/';
     }
     document.getElementById("name").innerHTML += getCookie("name");
-    document.getElementById("auth").innerHTML += getCookie("auth");
+    // document.getElementById("auth").innerHTML += getCookie("auth");
     document.getElementById("userId1").value += getCookie("userId");
   }, false);
 </script>
@@ -68,8 +68,8 @@ viewAttendance
     </a></h1>
 
   <br>
-  <p id="auth">User Authenticated = </p>
-  <p id="userId">UserId = </p>
+  <!-- <p id="auth">User Authenticated = </p> -->
+  <!-- <p id="userId">UserId = </p> -->
   <br>
 
   <br>
@@ -84,9 +84,108 @@ viewAttendance
     </div> <!-- form-group end.// -->
 
     <button type="submit" class="btn btn-warning" name="view" value="view">View Attendance</button>
-    <button type="submit" class="btn btn-info" name="download" value="download">Download 🔽</button>
   </form>
+  <br><br>
+
+
+  {% if state == "true" %}
+
+  <!----------- Attendance Table Starts Here -------------->
+  <table style="width:100%" class="table table-bordered table-hover table-dark">
+    <tr>
+      <th rowspan="3" class="bg-primary" style="text-align:center">Date</th>
+      <th colspan={{ totalAttendees }} class="bg-warning" style="text-align:center">Attendance</th>
+    </tr>
+
+    <!-- Printing AttendeeName -->
+    <tr class="bg-info">
+      {% for name in attendeeName %}
+      <td>{{name}}</td>
+      {% endfor %}
+    </tr>
+
+
+    <!-- Printing AttendeeId -->
+    <tr class="bg-info">
+      {% for id in attendanceID %}
+      <td>{{id}}</td>
+      {% endfor %}
+    </tr>
+
+    <!-- Entering date -->
+    {% for record in attendanceRecord%}
+    <tr>
+      {% for item in record %}
+      {% if item == "Yes" %}
+      <td class="bg-success">{{ item }}</td>
+      {% elif item == "No" %}
+      <td class="bg-danger">{{ item }}</td>
+      {% else %}
+      <td>{{ item }}</td>
+      {% endif%}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+
+
+  </table>
+  <!------------Attendance Table Ends Here ---------------->
+  <button type="button" class="btn btn-info download" name="download" id="download">Download 🔽</button>
+
+  <script lang="javascript">
+    function download_csv(csv, filename) {
+      var csvFile;
+      var downloadLink;
+
+      // CSV FILE
+      csvFile = new Blob([csv], { type: "text/csv" });
+
+      // Download link
+      downloadLink = document.createElement("a");
+
+      // File name
+      downloadLink.download = filename;
+
+      // We have to create a link to the file
+      downloadLink.href = window.URL.createObjectURL(csvFile);
+
+      // Make sure that the link is not displayed
+      downloadLink.style.display = "none";
+
+      // Add the link to your DOM
+      document.body.appendChild(downloadLink);
+
+      // Lanzamos
+      downloadLink.click();
+    }
+
+    function export_table_to_csv(html, filename) {
+      var csv = [];
+      var rows = document.querySelectorAll("table tr");
+
+      for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+
+        for (var j = 0; j < cols.length; j++)
+          row.push(cols[j].innerText);
+
+        csv.push(row.join(","));
+      }
+
+      // Download CSV
+      download_csv(csv.join("\n"), filename);
+    }
+
+    document.querySelector(".download").addEventListener("click", function () {
+      var html = document.querySelector("table").outerHTML;
+      export_table_to_csv(html, 'export_attendance_' + new Date().toLocaleDateString() + '.csv');
+    });
+
+  </script><br><br>
+
+  {% endif %}
   <br>
+
   <!-- BACK TO Profile -->
   <!-- Back -->
   <a href="{% url 'userSpace' %}">

@@ -12,6 +12,10 @@ dnspython = "*"
 pillow = "*"
 face-recognition = "*"
 numpy = "*"
+pytz = "*"
+gunicorn = "*"
+django-heroku = "*"
+python-decouple = "*"
 
 [requires]
 python_version = "3.7"

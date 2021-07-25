@@ -68,7 +68,7 @@ shareLink
     }
     document.getElementById("name").innerHTML += getCookie("name");
     // document.getElementById("auth").innerHTML += getCookie("auth");
-    document.getElementById("userId").innerHTML += getCookie("userId");
+    // document.getElementById("userId").innerHTML += getCookie("userId");
   }, false);
 </script>
 
@@ -93,7 +93,7 @@ shareLink
 
   <br>
   <!-- <p id="auth">User Authenticated = </p> -->
-  <p id="userId">UserId = </p>
+  <!-- <p id="userId">UserId = </p> -->
   <br>
 
   <br>
@@ -115,14 +115,11 @@ shareLink
 
 
   <br><br>
+
   <!-- BACK TO Profile -->
-  <div class="card bg-success text-white">
-    <a href="{% url 'userSpace' %}" style="color: white;">
-      <div class="card-body" style="text-align: center;">
-        <p style="font-size: x-large; color: black;"><b>BACK</b></p>
-      </div>
-    </a>
-  </div>
+  <!-- Back -->
+  <a href="{% url 'userSpace' %}">
+    <button type="button" class="btn btn-success btn-block" name="back">Back</button></a>
 
   <br>
 </div>

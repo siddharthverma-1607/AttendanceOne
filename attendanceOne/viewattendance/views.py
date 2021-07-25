@@ -5,8 +5,9 @@ from . import viewAttendanceDao as dao
 
 def attendance(response):
     if response.method == "POST":
-        view = response.POST.get("view")
-        download = response.POST.get("download")
+        attendanceResult = {}
+        # view = response.POST.get("view")
+        # download = response.POST.get("download")
         userId = response.POST.get("userId")
         # print("UserId - ", userId)
 
@@ -15,28 +16,31 @@ def attendance(response):
         attendeeNames = attendanceDetails[0][0]
         attendeeId = attendanceDetails[0][1]
         dateDetail = attendanceDetails[1]
-        dateTaken = []
-        attendanceRecord = [["No"] * len(attendeeNames)] * len(dateDetail)
+        attendanceRecord = []
 
-        attendanceRecordIndex = 0
+        print("attendeeNames : ", attendeeNames)
+        print("attendeeId : ", attendeeId)
+        print("Date details : ", dateDetail)
+        print(attendanceRecord, "\n\n")
+
         for date, record in dateDetail.items():
-
-            dateTaken.append(date)
+            # print(date, record)
+            singleDayRecord = []
+            singleDayRecord.append(date.replace(":", "/"))
             for id in attendeeId:
                 if id in record:
-                    index = attendeeId.index(id)
-                    print("Yes", index)
-                    attendanceRecord[attendanceRecordIndex][index] = "Yes"
-                    print(attendanceRecord[attendanceRecordIndex])
+                    # print("Yes")
+                    singleDayRecord.append("Yes")
                 else:
-                    index = attendeeId.index(id)
-                    print("No", index)
-            print(attendanceRecord)
-            attendanceRecordIndex += 1
+                    singleDayRecord.append("No")
 
-        print(dateDetail)
+            attendanceRecord.append(singleDayRecord)
+
         print(attendanceRecord)
 
-        return render(response, "viewattendance/viewAttendance.html")
+        attendanceResult = {"state": "true", "attendanceID": attendeeId,
+                            "attendeeName": attendeeNames, "attendanceRecord": attendanceRecord, "totalAttendees": len(attendeeId)}
+
+        return render(response, "viewattendance/viewAttendance.html", attendanceResult)
     else:
         return render(response, "viewattendance/viewAttendance.html")

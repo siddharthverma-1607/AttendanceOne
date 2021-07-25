@@ -4,6 +4,16 @@ Login
 {% endblock %}
 
 {% block content %}
+<!-- To prevent if user is logged in -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (getCookie("auth") == "true") {
+      window.location.href = '/login/userSpace';
+    }
+  }, false);
+</script>
+
 <h1 style="text-align: center;">Login</h1>
 
 {% if userAdded %}
