@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6d3b5143f8a8558875067d80a3af2b2257697b35dac00be7dd8916adb764efc2"
+            "sha256": "1c6ead455a7beeb343121c5cc1a8c18e9d8766835cda5beac31f9206ee5f3a12"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -65,6 +65,7 @@
             "hashes": [
                 "sha256:b5f5fe43ad19a821903aad786381e5b51a9d219527148fd604e719b398e84108"
             ],
+            "index": "pypi",
             "version": "==19.22.0"
         },
         "dnspython": {
@@ -99,11 +100,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:079ada16b7fc30dfbb5d13399a5113110dab1aa7c2bc62f66af75f0b717c8cac",
-                "sha256:9f55f560e116f8643ecf2922d9cd3e1c7e8d52e683178fecd9d08f6aa357e11e"
+                "sha256:0645585859e9a6689c523927a5032f2ba5919f1f7d0e84bd4533312320de1ff9",
+                "sha256:51c6635429c77cf1ae634c997ff9e53ca3438b495f10a55ba28594dd69764a8b"
             ],
             "markers": "python_version < '3.8'",
-            "version": "==4.6.1"
+            "version": "==4.6.3"
         },
         "numpy": {
             "hashes": [
@@ -332,6 +333,14 @@
             ],
             "markers": "python_version < '3.8'",
             "version": "==3.10.0.0"
+        },
+        "waitress": {
+            "hashes": [
+                "sha256:29af5a53e9fb4e158f525367678b50053808ca6c21ba585754c77d790008c746",
+                "sha256:69e1f242c7f80273490d3403c3976f3ac3b26e289856936d1f620ed48f321897"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
         },
         "whitenoise": {
             "hashes": [

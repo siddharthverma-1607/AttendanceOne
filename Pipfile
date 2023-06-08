@@ -16,6 +16,9 @@ pytz = "*"
 gunicorn = "*"
 django-heroku = "*"
 python-decouple = "*"
+waitress = "*"
+dlib = "*"
+requirements-txt = "*"
 
 [requires]
 python_version = "3.7"
